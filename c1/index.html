@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" http-equiv="content-type" content="text/html">
+	<title>Sample HTML5 File</title>
+	<style type="text/css">
+		#testcanvas{border:1px solid black}
+	</style>
+	<script type="text/javascript">
+		//这个函数将在页面完全加载后调用
+		pageLoaded = function(){
+			//获取canvas 对象的引用
+			var canvas = document.getElementById('testcanvas');
+			//获取该canvas的2D绘图环境
+			var context = canvas.getContext('2d');
+			//绘图代码将出现在这里
+			
+			/**********************************绘制简单形状*******************************************/
+			//实心矩形
+			//在点（200,10）处绘制一个宽和高均为100px的实心正方形
+			context.fillRect(200,10,100,100);
+			//在点（50,70）处绘制一个宽90px 高30px 的实心矩形
+			context.fillRect(50,70,90,30);
+
+			//空心矩形
+			//在点（110,10）处绘制一个宽和高均为50px的正方形边框
+			context.strokeRect(110,10,50,50);
+			//在点（30，10）处绘制一个宽和高均为50px的正方形边框
+			context.strokeRect(30,10,50,50);
+
+			//清除矩形区域
+			//清除点（210,20）处宽30px、高20px的矩形区域
+			context.clearRect(210,20,30,20);
+			//清除点（260,20）处宽30px、高20px的矩形区域
+			context.clearRect(260,20,30,20);
+
+
+
+
+			/**********************************绘制复杂形状*******************************************/
+			//填充三角形
+			context.beginPath();    //开始绘制一个新的路径
+			context.moveTo(10,120);	//从点（10,20）开始     //将当前点移动到点（x,y）
+			context.lineTo(10,180);	//从当前点绘制一条直线段到点（x,y）
+			context.lineTo(110,150);
+			context.fill();    //闭合形状并且以填充的方式绘制出来
+			
+			//三角形的外边框
+			context.beginPath();
+			context.moveTo(140,160); //从点（140,160）开始
+			context.lineTo(140,220); 
+			context.lineTo(40,190);
+			context.closePath();    //结束绘制并闭合形状
+			context.stroke();	//绘制路径的外边框或填充形状
+			
+			//一个更复杂的多边形
+			context.beginPath();
+			context.moveTo(160,160);
+			context.lineTo(170,220);
+			context.lineTo(240,210);
+			context.lineTo(260,170);
+			context.lineTo(190,140);
+			context.closePath();
+			context.stroke();
+			
+			/**********************************绘制弧*******************************************/
+			
+			//绘制半圆弧
+			context.beginPath();
+			//在（400,50）处逆时针画一个半径为40，角度从0到180度的弧线
+			//arc(x,y,radius,startAngle,endAngle,anticlockwise)
+			context.arc(400,50,40,0,Math.PI,true);    //PI的弧度是180度
+			context.stroke();
+			
+			//画一个实心圆
+			context.beginPath();
+			//在（500,50）处逆时针画一个半径为30，角度为0到360度的圆弧
+			context.arc(500,50,30,0,2*Math.PI,true);
+			context.fill();
+			
+			//画一个3/4弧
+			context.beginPath();
+			//在（400,100）处顺时针画一个半径为25，角度为0到270的弧
+			context.arc(400,100,25,0,3/2*Math.PI,false);
+			context.stroke();
+			
+			/**********************************绘制文本*******************************************/
+			
+			//绘制文本
+			context.fillText('这里有一些文字',330,150);
+			
+			//修改字体
+			context.font = '18px Arial';
+			context.fillText('这里有一些文字',330,170);
+			
+			//绘制空心的文本
+			context.font = '16px Arial';
+			context.strokeText('这里有一些文字',330,190);
+			
+			/**********************************自定义画笔样式（颜色和纹理）*******************************************/
+			
+			//设置填充颜色为红色
+			context.fillStyle = 'red';
+			//画一个红色的实心矩形
+			context.fillRect(20,230,100,50);
+			
+			//设置边线颜色为绿色
+			context.strokeStyle = 'green'
+			context.strokeRect(20,290,100,50);
+			
+			//使用reg（）设置填充颜色为红色
+			context.fillStyle = 'rgb(255,0,0)';
+			//画一个红色的实心矩形
+			context.fillRect(140,230,100,50);
+			//设置填充颜色为绿色且alpha值（透明度）为0.6
+			context.fillStyle = 'rgba(0,255,0,0.6)';
+			context.fillRect(190,255,100,50);
+			
+			/**********************************绘制图像*******************************************/
+			
+			//获取图片对象的引用
+			var image = document.getElementById('spaceship');
+			//在（0,350）处绘制图片
+			context.drawImage(image,0,350);
+			
+			//缩小图片至原来的一半大小
+			context.drawImage(image,0,400,100,25);
+			
+			//绘制图片的局部
+			context.drawImage(image,0,0,60,50,0,420,60,50);
+			
+			/**********************************平移和旋转*******************************************/
+			
+			//平移原点至物体的位置
+			context.translate(250,370);
+			//以新原点为中心旋转60度
+			context.rotate(Math.PI/3);
+			context.drawImage(image,0,0,60,50,-30,-25,60,50);
+			//通过反向旋转和平移恢复原点状态
+			context.rotate(-Math.PI/3);
+			context.translate(-240,-370);
+			
+			//平移原点至物体的位置
+			context.translate(300,370);
+			//以新原点为中心旋转60度
+			context.rotate(3*Math.PI/4);
+			context.drawImage(image,0,0,60,50,-30,-25,60,50);
+			//通过反向旋转和平移恢复原点状态
+			context.rotate(-3*-Math.PI/4);
+			context.translate(-300,-370);
+		}
+		play = function(){
+			//创建Audio 对象
+			var sound = new Audio();
+			//选择音频源
+			sound.src = "music.mp3";
+			//播放音频源
+			sound.play();
+		}
+	</script>
+</head>
+<body onload="pageLoaded();">
+	<canvas width="640" height="400" id="testcanvas">
+		我们创建了一个Html5 canvas标记
+	</canvas>
+	<button onclick="play()">music play(此处使用js动态创建播放器)</button>
+	<audio controls="controls">
+		<source src="music.mp3" type="audio/mp3"></source>
+		你的浏览器不支持html5音频播放
+	</audio>
+	<img id="spaceship" src="spaceship.png">
+</body>
+</html>
